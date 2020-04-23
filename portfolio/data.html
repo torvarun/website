@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+   <script src="https://d3js.org/d3.v4.min.js"></script>
+   <script src="https://d3js.org/topojson.v1.min.js"></script>
+   <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+   <script src="https://code.jquery.com/jquery.js"></script>
+
+   <title>Varun Venkataramanan | Data Visualizations</title>
+    <meta charset="utf-8" name="description" content="Portfolio of Varun Venkataramanan">
+    <meta charset="utf-8" name="author" content="Varun Venkataramanan">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png?v=yyLbP2WgME">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png?v=yyLbP2WgME">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png?v=yyLbP2WgME">
+    <link rel="manifest" href="../favicon/site.webmanifest?v=yyLbP2WgME">
+    <link rel="mask-icon" href="../favicon/safari-pinned-tab.svg?v=yyLbP2WgME" color="#5bbad5">
+    <link rel="shortcut icon" href="../favicon/favicon.ico?v=yyLbP2WgME">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+      
+</head>
+<style type="text/css">
+    .land {
+        fill: #222;
+    }
+
+    .county-boundary {
+        fill: none;
+        stroke: #fff;
+        stroke-width: .5px;
+    }
+
+    s .state-boundary {
+        fill: none;
+        stroke: black;
+    }
+
+    .background {
+        fill: none;
+        pointer-events: all;
+    }
+
+    .feature {
+        fill: #ccc;
+        cursor: pointer;
+    }
+
+    .feature.active {
+        fill: red;
+    }
+
+    .mesh {
+        fill: none;
+        stroke: black;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .meshCounty {
+        stroke: white;
+    }
+
+    .extraInfo {
+        padding-top: 20px;
+        padding-left: 50px;
+    }
+
+    .stateTitle {
+        font-size: 20px;
+        font-weight: bolder;
+        display: block;
+        margin: auto;
+        text-align: center;
+        font-family: Arial;
+        /*fill: blue;*/
+    }
+
+    .con2016 {
+        padding-top: 30px;
+    }
+
+    .con2012 {
+        padding-top: 80px;
+    }
+
+    div.tooltip {
+        color: #222;
+        background-color: #fff;
+        padding: .5em;
+        text-shadow: #f5f5f5 0 1px 0;
+        border-radius: 2px;
+        opacity: 0.9;
+        position: absolute;
+        font-family: Arial;
+        font-size: 14px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .centre {
+        margin: auto;
+        width: 900px;
+    }
+
+    #election-vis {
+        @font-face {
+            font-family: "Malgun";
+            src: url(./assets/malgun.ttf) format("truetype");
+        }
+        font-family: Malgun !important;
+        /*background-color: #FFFFFF;*/
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 20px;
+    }
+
+    body {
+        font-family: Helvetica, sans-serif;
+        background-color: #F0F0F0;
+    }
+
+    #scatter {
+        font: 11px sans-serif;
+    }
+
+    .scatter {
+        font: 11px sans-serif;
+    }
+
+    .g {
+        pointer-events: all;
+    }
+
+    .axis path, .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .dot {
+        stroke: #000;
+    }
+
+    .scatter-tooltip {
+        color: #222;
+        background-color: #fff;
+        padding: .5em;
+        text-shadow: #f5f5f5 0 1px 0;
+        border-radius: 2px;
+        opacity: 0.9;
+        position: absolute;
+        font-family: Arial;
+        font-size: 14px;
+    }
+
+    .img-centre {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .shot-chart {
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .gravity {
+        font: 11px sans-serif;
+    }
+    .chart-title{
+        font:  20px sans-serif;
+        text-anchor: start;
+        /*text-decoration: underline;*/
+    }
+
+    .links line {
+        stroke: #999;
+        stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+        stroke: #fff;
+        stroke-width: 1.5px;
+    }
+
+    .navbar-link{
+        color: #1d1d1d;
+        text-decoration: none;
+        font-weight: normal;
+    }
+    .navbar-link:active {
+        color: #1d1d1d;
+        font-weight: normal;
+    }
+    .navbar-link:hover {
+        color: #1d1d1d;
+        font-size: 110%;
+        font-weight: normal;
+    }
+
+    .navbar-name{
+        color: #1d1d1d;
+        text-decoration: none;
+        font-weight: normal;
+        font-size: 140%;
+    }
+    .navbar-name:hover{
+        text-decoration: none;
+        color: #1d1d1d;
+    }
+</style>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block sidebar" style="position: fixed;">
+                <div class="sidebar-sticky">
+                <br/>
+                <a class="navbar-brand navbar-name" href="../">
+                    <img src="../assets/images/avatar.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+                        portfolio | data viz
+                </a>
+                <br/>
+                <br/>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                        <a class="nav-link navbar-link" href="#election">
+                            US Election<span class="sr-only">(current)</span>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link navbar-link" href="#sports">
+                            Sports
+                        </a>
+                        </li>
+                    </ul>
+                    <footer style="position:fixed; bottom: 0;">
+                        <h6 class="d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Varun Venkataramanan</span>    
+                        </h6>
+                        <h6 class="d-flex justify-content-between align-items-start px-3 mb-1 text-muted">
+                            <span>&copy; 2019</span>    
+                        </h6>
+                        <br/>
+                    </footer>
+                    </div>
+            </nav>
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="container centre">
+                    <div class="container centre">
+                        <br/>
+                        <!-- <h1>Data Visualizations</h1> -->
+                        <p>The following are miscellaneous data visualizations I have worked on over the past few years. I tend to design my charts in a similar fashion to those featured in FiveThrityEight, The Ringer, or New York Times.</p>
+                        <p>Technologies: D3.js, R, Python, Tableau</p>
+                        <div class="visible-xs-block visible-sm-block">
+                        <p><i>For optimal browsing experince, please do not view this site on mobile.</i></p>
+                    </div>
+                </div>
+
+                <div id="election" class="container centre">
+                    <br/>
+                    <div id="intro" class="centre">
+                        <h2>US Election</h2>
+                        <p>The following interactives were created for The Reckoner of MGCI, as part of <a href="https://thereckoner.ca/2016-us-presidential-election-breakdown/" target="_blank">an article analyzing Donald Trump's victory in the 2016 US Presidential Election.</a></p>
+                    </div>
+                    <div id="map" class="centre">
+                        <p>
+                            The first interactive is a map of the United States containing multipe levels of data comparing the results of the 2016 election to that of Obama's 2012 re-election.
+                            It was created using d3.js with data compiled from the Associated Press. A friend, Julien Lin, helped write the small blurbs pertaining to each state.
+                        </p>
+                        <div id="election-vis">
+                            <div class="whole-us" id="whole-us"></div>
+                            <div class="extra-info" id="extra-info"></div>
+                        </div>
+                    </div>
+                    <div id="scatter-container" class="centre">
+                        <p>The second interactive is a scatter plot showcasing the relationship between the percentages of white, non-college educated voters and voter turnout in a state. It was created using D3.js with data compiled from the United States Federal Election Committee.</p>
+                        <div id="scatter" class="scatter"></div>
+                    </div>
+
+                    <!-- election map -->
+                    <script>
+                        var width = 900,
+                            height = 450,
+                            active = d3.select(null);
+                        
+                        var projection = d3.geoAlbersUsa()
+                            .scale(1000)
+                            .translate([width / 2, height / 2]);
+                        var path = d3.geoPath()
+                            .projection(projection);
+                        
+                        var svg = d3.select(".whole-us").append("svg")
+                            .attr("width", width)
+                            .attr("height", height);
+                        
+                        svg.append("rect")
+                            .attr("class", "background")
+                            .attr("width", width)
+                            .attr("height", height)
+                            .on("click", reset);
+                        
+                        var g = svg.append("g")
+                            .style("stroke-width", "1.5px"); 
+                        
+                        var stateColour = {};
+                        var stateData = {};
+                        
+                        //Parse in state-data
+                        d3.json("./data/state-data.json", function(error, data){
+                        if(error) throw error;
+                        
+                        
+                        
+                        data.forEach(function(d, i){
+                            //console.log(d.blurb);
+                            stateData[d.id] = d;
+                            stateColour[d.id] = d.colour;
+                        })
+                        
+                        //console.log(stateData);
+                        //console.log(stateColour);
+                        }) 
+                        
+                        var tooltip = d3.select('.whole-us').append('div')
+                            .attr('class', 'hidden tooltip');
+                        
+                        d3.json("./data/us.json", function(error, us) {
+                            if (error) throw error;
+                        
+                            g.selectAll("path")
+                                .data(topojson.feature(us, us.objects.states).features)
+                                .enter().append("path")
+                                .attr("d", path)
+                                .attr("class", "feature")
+                                /*.attr("name", function(d){ 
+                                for(var i = 0; i < stateData.length; i++){
+                                    if(typeof stateData[d.id] === 'undefined')
+                                    return "";
+                                }
+                                return stateData[d.id].name;}) */
+                                .style("fill", function(d){
+                                    return "#" + stateColour[d.id];
+                                })
+                                .on("mousemove", function (d) { 
+                                    d3.select(this).style("opacity", .8); 
+                                    var mouse = d3.mouse(svg.node()).map(function(d) {
+                                        return parseInt(d);
+                                    });
+                                    tooltip.classed('hidden', false)
+                                        .style("left", (d3.event.pageX - 225) + "px")
+                                        .style("top", (d3.event.pageY - 28) + "px")
+                                        .html(stateData[d.id].name);
+                                })
+                                .on("mouseover", function(d){
+                                updateInfo(d.id);
+                                })
+                                .on("mouseout", function () { 
+                                    tooltip.classed('hidden', true);
+                                    d3.select(this).style("opacity", 1).style("fill", function(d){
+                                    return "#" + stateColour[d.id];
+                                    }); 
+                                    updateInfo(-1);
+                                })
+                                .on("click", clicked);
+                        
+                            /*g.append("path")
+                                .datum(topojson.mesh(us, us.objects.counties, function(a, b) {
+                                    return a !== b;
+                                }))
+                                .attr("class", "meshCounty")
+                                .attr("d", path); */
+                        
+                            g.append("path")
+                                .datum(topojson.mesh(us, us.objects.states, function(a, b) {
+                                    return a !== b;
+                                }))
+                                .attr("class", "mesh")
+                                .attr("d", path)
+                                .on("click", clicked); 
+                        
+                            updateInfo(-1); //Initialize with US data
+                        });
+                        
+                        function clicked(d) {
+                            if (active.node() === this) return reset();
+                            active.classed("active", false);
+                            active = d3.select(this).classed("active", true);
+                        
+                            console.log(d3.select(this).attr("name"));
+                        
+                            var bounds = path.bounds(d),
+                                dx = bounds[1][0] - bounds[0][0],
+                                dy = bounds[1][1] - bounds[0][1],
+                                x = (bounds[0][0] + bounds[1][0]) / 2,
+                                y = (bounds[0][1] + bounds[1][1]) / 2,
+                                scale = .9 / Math.max(dx / width, dy / height),
+                                translate = [width / 2 - scale * x, height / 2 - scale * y];
+                        
+                            g.transition()
+                                .duration(750)
+                                .style("stroke-width", 1.5 / scale + "px")
+                                .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+                        }
+                        
+                        function reset() {
+                            active.classed("active", false);
+                            active = d3.select(null);
+                        
+                            g.transition()
+                                .duration(750)
+                                .style("stroke-width", "1.5px")
+                                .attr("transform", "");
+                        }
+                        
+                        d3.select(self.frameElement).style("height", height + "px");
+                        
+                        
+                        /* ********** INFO ********** */
+                        
+                        var svgContainer = d3.select(".extra-info").append("svg")
+                                                    .attr("width", 850)
+                                                    .attr("height", 180)
+                                                    .attr("class", "extraInfo");                                   
+                        
+                        
+                        var usData = {
+                            "id": "",
+                            "code": "US",
+                            "name": "United States",
+                            "colour": "",
+                            "electoralVotes": 538,
+                            "party2016": "Republican",
+                            "trump": 47.2,
+                            "clinton": 47.8,
+                            "other2016": 5,
+                            "party2012": "Democratic",
+                            "obama": 51.1,
+                            "romney": 47.2,
+                            "other2012": 1.7,
+                            "blurb": "This year, Republican nominee Donald Trump (estimated 306 electoral votes) won the Electoral College and the presidency over Democratic candidate Hillary Clinton (232 electoral votes), but how did each state vote? Hover over each state to find general information about the demographics and voting patterns, and click to zoom in."
+                        };  //National results
+                        
+                        
+                        function updateInfo (index){
+                        //index = -1 is US
+                        
+                            svgContainer.selectAll("text").remove();
+                            svgContainer.selectAll("svg").remove();
+                            svgContainer.selectAll("foreignObject").remove();
+                        
+                            /* var title = svgContainer.append("svg:text")
+                                .attr("font-size", "20px")
+                                .attr('class', 'stateTitle')
+                                .attr("text-align", "center")
+                                .style("font-family", "Arial")
+                                .text(function(){
+                                if(index == -1)
+                                    return usData.name + " - " + usData.electoralVotes + " electoral votes";
+                                return stateData[index].name + " - " + stateData[index].electoralVotes + " electoral votes";})
+                                .attr("index", index)
+                                .style("fill", function(){
+                                if(index == -1)
+                                    return "red";
+                                else if(stateData[index].party2016 == "Republican")
+                                    return "red";
+                                else
+                                    return "blue";
+                                })
+                                .style("font-weight", "strong"); */
+                        
+                            var container2016 = svgContainer.append("svg")
+                                .style("class", "con2016")
+                                .attr("width", 300)
+                                .attr("height", 50);
+                        
+                            container2016.append("svg:text")
+                            .text("2016 - Clinton vs Trump")
+                            .style("font-family", "Arial")
+                            .style("font-size", "14px")    
+                            .attr("transform", "translate(" + 0 + "," + 25 + ")");
+                        
+                            var clinton = container2016.append("rect")
+                                .attr("height", 20)
+                                .attr("width", function(){
+                                    if(index == -1)
+                                        return usData.clinton *2;
+                                    return stateData[index].clinton * 2;
+                                })
+                                .attr('fill', 'blue')
+                                .attr("transform", "translate(" + 0 + "," + 30 + ")");
+                        
+                            container2016.append("svg:text")
+                                .text(function(){
+                                if(index == -1)
+                                    return usData.clinton;
+                                return stateData[index].clinton;
+                                })
+                                .style("fill", "white")
+                                .style("font-family", "Arial")
+                                .style("font-size", "14px") 
+                                .attr("transform", "translate(" + 5 + "," + 45 + ")");    
+                        
+                            var other2016 = container2016.append("rect")
+                            .attr("height", 20)
+                            .attr("width", function(){
+                                if(index == -1)
+                                    return usData.other2016 * 2;
+                                return stateData[index].other2016 * 2;
+                            })
+                            .attr('fill', 'lightGrey')
+                            .attr("transform", function(){
+                                if(index == -1)
+                                return "translate(" + usData.clinton * 2 + "," + 30 + ")";
+                                return "translate(" + stateData[index].clinton * 2 + "," + 30 + ")";
+                            });
+                        
+                            var trump = container2016.append("rect")
+                                .attr("height", 20)
+                                .attr("width", function(){
+                                    if(index == -1)
+                                        return usData.trump *2;
+                                    return stateData[index].trump * 2;
+                                })
+                                .attr('fill', 'red')
+                                .attr("transform", function(){
+                                if(index == -1)
+                                    return "translate(" + (usData.clinton + usData.other2016) *2 + "," + 30 + ")";
+                                return "translate(" + (stateData[index].clinton + stateData[index].other2016) * 2 + "," + 30 + ")";
+                                });
+                        
+                            container2016.append("svg:text")
+                                .text(function(){
+                                if(index == -1)
+                                    return usData.trump;
+                                return stateData[index].trump;
+                                })
+                                .style("fill", "white")
+                                .style("font-family", "Arial")
+                                .style("font-size", "14px") 
+                                .attr("transform", function(){
+                                if(index == -1)
+                                    return "translate(" + ((usData.clinton + usData.other2016) *2 + 5) + "," + 45 + ")";
+                                return "translate(" + ((stateData[index].clinton + stateData[index].other2016) * 2 + 5) + "," + 45 + ")";
+                                });
+                        
+                            /**** 2012 *****/
+                            var container2012 = svgContainer.append("svg")
+                                .style("class", "con2012")
+                                .attr("width", 300)
+                                .attr("height", 115);
+                        
+                            container2012.append("svg:text")
+                                .text("2012 - Obama vs Romney")
+                                .style("font-family", "Arial")
+                                .style("font-size", "14px") 
+                                .attr("transform", "translate(" + 0 + "," + 70 + ")");
+                        
+                            var obama = container2012.append("rect")
+                                .attr("height", 20)
+                                .attr("width", function(){
+                                    if (index == -1)
+                                        return usData.obama *2;
+                                    return stateData[index].obama * 2;
+                                })
+                                .attr('fill', 'blue')
+                                .attr("transform", "translate(" + 0 + "," + 75 + ")");
+                        
+                            container2012.append("svg:text")
+                                .text(function(){
+                                if(index == -1)
+                                    return usData.obama;
+                                return stateData[index].obama;  
+                                })
+                                .style("fill", "white")
+                                .style("font-family", "Arial")
+                                .style("font-size", "14px") 
+                                .attr("transform", "translate(" + 5 + "," + 90 + ")");    
+                        
+                            var other2012 = container2012.append("rect")
+                            .attr("height", 20)
+                            .attr("width", function(){
+                                if(index == -1)
+                                    return usData.other2012 *2;
+                                return stateData[index].other2012 * 2;
+                            })
+                            .attr('fill', 'lightGrey')
+                            .attr("transform", function(){
+                                if(index ==-1)
+                                return "translate(" + usData.obama * 2 + "," + 75 + ")";
+                                return "translate(" + stateData[index].obama * 2 + "," + 75 + ")";
+                            });
+                        
+                            var romney = container2012.append("rect")
+                                .attr("height", 20)
+                                .attr("width", function(){
+                                    if(index == -1)
+                                    return usData.romney *2;
+                                    return stateData[index].romney * 2;
+                                })
+                                .attr('fill', 'red')
+                                .attr("transform", function(){
+                                if(index == -1)
+                                    return "translate(" + (usData.obama + usData.other2012) * 2 + "," + 75 + ")";
+                                return "translate(" + (stateData[index].obama + stateData[index].other2012) * 2 + "," + 75 + ")";
+                                });
+                        
+                            container2012.append("svg:text")
+                                .text(function(){
+                                if(index == -1)
+                                    return usData.romney;
+                                return stateData[index].romney;
+                                })
+                                .style("fill", "white")
+                                .style("font-family", "Arial")
+                                .style("font-size", "14px") 
+                                .attr("transform", function(){
+                                if(index == -1)
+                                    return "translate(" + ((usData.obama + usData.other2012) * 2 + 5) + "," + 90 + ")";
+                                return "translate(" + ((stateData[index].obama + stateData[index].other2012) * 2 + 5) + "," + 90 + ")";
+                                });
+                        
+                            /***** Blurb *****/
+                        
+                            var blurbContainer =  svgContainer.append("svg")
+                                                    .attr("width", 800)
+                                                    .attr("height", 200);    
+                            blurbContainer.append("foreignObject")
+                                .attr("width", 575)
+                                .attr("height", 200)
+                                .style("font-family", "Arial")
+                                .style("font-size", "14px")
+                                .text(function(){
+                                if(index == -1)
+                                    return usData.blurb;
+                                return stateData[index].blurb;
+                                })                                     
+                                .attr("transform", "translate(" + 225 + "," + 10 + ")"); 
+                        
+                            /******* Map Info *******/
+                            svgContainer.append("foreignObject")
+                                .attr("width", 200)
+                                .attr("height", 200)
+                                .style("font-family", "Arial")
+                                .style("font-size", "14px")
+                                .text("The map is coloured by percentage of victory: red means a large Republican victory, blue a large Demoratic victory, and purple meaning a close to 50-50 split.")
+                                .style("font-size", "12px")    
+                                .attr("transform", "translate(" + 0 + "," + 105 + ")"); 
+                        }
+                    </script>
+
+                    <!-- scatter plot -->
+                    <script type="text/javascript">
+                        var margin = {top: 20, right: 20, bottom: 10, left: 40};
+                        var pollData;
+
+                        draw();
+
+                        function draw(){
+                        var width = $('#scatter').width() - margin.left - margin.right,
+                        height = 450 - margin.top - margin.bottom;
+                        /* 
+                        * value accessor - returns the value to encode for a given data object.
+                        * scale - maps value to a visual display encoding, such as a pixel position.
+                        * map function - maps from data value to display value
+                        * axis - sets up axis
+                        */ 
+
+                        // setup x 
+                        var xValue = function(d) { return d.whiteNoDegree;}, // data -> value
+                            xScale = d3.scaleLinear().range([0, width]), // value -> display
+                            xMap = function(d) { return xScale(xValue(d));}, // data -> display
+                            xAxis = d3.axisBottom().scale(xScale),
+                            xVals = []; //Array for x-values
+
+                        // setup y
+                        var yValue = function(d) { return d.pollingError;}, // data -> value
+                            yScale = d3.scaleLinear().range([height, 0]), // value -> display
+                            yMap = function(d) { return yScale(yValue(d));}, // data -> display
+                            yAxis = d3.axisLeft().scale(yScale),
+                            yVals = []; //Array for y-values
+
+                        // setup fill color
+                        var cValue = function(d) { return d.pollingError;},
+                            color = d3.scaleOrdinal(d3.schemeCategory10);;
+
+                        // add the graph canvas to the body of the webpage
+                        var svg = d3.select('#scatter').append("svg")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom + 100)
+                            .append("g")
+                            .attr("class", "g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                        // add the tooltip area to the webpage
+                        var tooltip = d3.select('#scatter').append("div")
+                            .attr("class", "scatter-tooltip")
+                            .style("opacity", 50);
+
+                        // load data
+                        d3.csv("./data/polling-error.csv", function(error, data) {
+                            pollData = data;
+                            // change string (from CSV) into number format
+                            data.forEach(function(d, i) {
+                            d.whiteNoDegree = +d.whiteNoDegree;
+                            xVals.push(+d.whiteNoDegree); //Add to x Vals array
+                            d.pollingError = +d.pollingError;
+                            yVals[i] = +d.pollingError;
+                            });
+
+                            // don't want dots overlapping axis, add in buffer to data domain
+                            xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+5/2]);
+                            yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+2]);
+
+                            // x-axis
+                            svg.append("g")
+                                .attr("class", "x axis")
+                                .attr("transform", "translate(0," + height + ")")
+                                .call(xAxis);
+                            svg.append("text")
+                                .attr("class", "label")
+                                .attr("x", width)
+                                .attr("y", height - 6)
+                                .style("text-anchor", "end")
+                                .text("Percentage of White, Non-College Educated Voters");
+
+                            // y-axis
+                            svg.append("g")
+                                .attr("class", "y axis")
+                                .call(yAxis);
+                            svg.append("text")
+                                .attr("class", "label")
+                                .attr("transform", "rotate(-90)")
+                                .attr("y", 6)
+                                .attr("dy", ".71em")
+                                .style("text-anchor", "end")
+                                .text("Percentage of Polling Error (%)");
+
+                            // draw dots
+                            svg.selectAll(".dot")
+                                .data(data)
+                            .enter().append("circle")
+                                .attr("class", "dot")
+                                .attr("r", 4)
+                                .attr("cx", xMap)
+                                .attr("cy", yMap)
+                                .style("fill", "green") 
+                                .on("mousemove", function(d) {
+                                    tooltip.transition()
+                                        .duration(200)
+                                        .style("opacity", .9);
+                                    tooltip.html(getAllNames(xValue(d), yValue(d)) + "<br/> (" + xValue(d) + "," + yValue(d) + ")")
+                                        .style("left", (d3.event.pageX - 225) + "px")
+                                        .style("top", (d3.event.pageY - 28) + "px");
+
+                                    d3.select(this).style("fill", "orange"); 
+                                })
+                                .on("mouseout", function(d) {
+                                    tooltip.transition()
+                                        .duration(500)
+                                        .style("opacity", 0);
+                                    d3.select(this).style("fill", "green"); 
+                                });
+
+                                //Calculate and plot linear regression
+                                var lr = linearRegression(); 
+
+                                var myLine = svg.append("svg:line")
+                                    .attr("x1", xScale(lr.point1.x))
+                                    .attr("y1", yScale(lr.point1.y))
+                                    .attr("x2", xScale(lr.point2.x))
+                                    .attr("y2", yScale(lr.point2.y))
+                                    .style("stroke", "orange");
+
+                                svg.append("text")
+                                    .attr("x", width - 24)
+                                    .attr("y", 9)
+                                    .attr("dy", ".35em")
+                                    .style("text-anchor", "end")
+                                    .text("R" + '\u00B2' + " = 0.66");   
+                        });
+
+                        svg.append("foreignObject")
+                                    .attr("width", width)
+                                    .attr("height", 10)
+                                    .style("font-family", "Arial")
+                                    .style("font-size", "10px")
+                                    .text("*% Polling error was based on an average of numerous polls (Quinnipac, FiveThirtyEight, Fox, Associated Press, CNN, among others) and compared with the actual results from the election. Negative polling error denotes a state that voted more in favour of Clinton than the polls suggested, and positive polling error signifies a state that voted more in favour of Trump than the polls indicated.")  
+                                    .attr("transform", "translate(" + 0 + "," + (height + 25) + ")"); 
+                        }              
+
+                        function getAllNames(xVal, yVal){
+                            var names = "";
+                            var counter = 0;
+                            for(var i = 0; i < pollData.length; i++){
+                                if(pollData[i].whiteNoDegree == xVal && pollData[i].pollingError == yVal){
+                                    if(counter > 0)
+                                        names += ", ";
+                                    names += pollData[i].state;
+                                    counter ++;
+                                }
+
+                            }
+
+                            return names;
+                        }
+
+                        function linearRegression(){
+                            function f(x) {return (0.2605 * x) - 7.9074;}
+
+                            var point1 = {}, point2 = {};
+                            
+                            point1['x'] = 1; //Hardcoded to min +1 (bounds)
+                            point1['y'] = f(point1.x);
+
+                            point2['x'] = 59; //Hardcoded to max -1 (bounds)
+                            point2['y'] = f(point2.x);
+
+                            return {point1, point2};
+                        };
+
+                        /* window.addEventListener('resize', function(event){
+                            $('#scatter').html("");
+                            draw();
+                        }); */
+                    </script>
+                </div>
+
+                <div id="sports" class="container centre">
+                    <br/>
+                    <h2>Sports</h2>
+                    <p>Developed for a <a href="https://http://www.thereckoner.ca/demar-derozan-underrated-never-overlooked/" target="_blank">Reckoner article</a>, the first visualization is a shot chart of DeMar DeRozan from halfway through the 2016-17 NBA season. It was created with R (ggplot2), using data scraped (using the Python library BeautifulSoup) from the NBA Stats website. Shot location charts us to see where an offensive player takes (and makes) most of their shots; with this visualization, it's easy to see how proficient DeRozan is at the midrange shot, a rarity in today's NBA. Furthermore, the single-coordinate rug plots allows us to see that he is most successful at creating shots along the baseline.</p>
+                    <img src="./assets/derozan_shot_chart.png" class="img-centre shot-chart">
+                    <p>The following force graph shows the common line pairings between Toronto Maple Leafs forwards during rhe first two months of the 2016-17 season. The size of the cirlce is proportional to a player's average time on ice, while the thickness of the lines is indicative of the lines represents the average time on ice a pair of players spend on the ice together. Colours represent the most common line pairings. It was developed using D3.js with data from Daily Faceoff.</p>
+                    <div id="leafs-lines" class="leafs-lines"></div>
+                    <br/>
+                    <p>The following chart was created using Tableau and displays the real plus-minus (RPM) broken down by offensive (OPM) and defensive plus-minus (DPM) of players comparable to the Raptors' Serge Ibaka. It was developed for an article in <a href="https://www.thereckoner.ca/serge-ibaka-missing-in-action/" target="_blank">The Reckoner of MGCI</a>.</p>
+                    <img src="assets/rpm-chart.svg" alt="RPM barplot" class="img-centre">
+                    <p>This scatter plot created using D3.js shows the change in performace with/without Steph Curry for players on the 2017-18 Golden State Warriors during the regular season. The was created to showcase <a href="https://thereckoner.ca/the-gravity-score/" target="_blank">Curry's 'gravity'</a>, his ability to create space (and therefore more favourable scoring chances) for teammates when on the floor.</p>
+                    <div id="gravity" class="gravity"></div>
+                    <!-- Leafs Lines -->
+                    <script>
+                            draw();
+                        
+                            function draw() {
+                            var width = $('#leafs-lines').width(),
+                                height = width/2;
+                        
+                            var svg = d3.select('#leafs-lines').append("svg")
+                            .attr("width", width)
+                            .attr("height", height);
+                        
+                            var color = d3.scaleOrdinal(d3.schemeBlues[7].reverse());
+                        
+                            var simulation = d3.forceSimulation()
+                            .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(280))
+                            .force("charge", d3.forceManyBody())
+                            .force("center", d3.forceCenter(width / 2, height / 2));
+                        
+                        // add the tooltip area to the webpage
+                        var tooltip = d3.select('#leafs-lines').append("div")
+                        .attr("class", "tooltip")
+                        .style("opacity", 50);
+                        
+                        d3.json("./data/leafs_pairings.json", function(error, pairings) {
+                            if (error) throw error;
+                        
+                            //document.write(JSON.stringify(pairings.links))
+                        
+                            var link = svg.append("g")
+                            .attr("class", "links")
+                            .selectAll("line")
+                            .data(pairings.links)
+                            .enter().append("line")
+                            .attr("stroke-width", function(d) {
+                            if(d.strength > 5)
+                                return Math.sqrt(d.strength * 2/3);
+                            return 0;
+                            });
+                        
+                            var node = svg.append("g")
+                            .attr("class", "nodes")
+                            .selectAll("circle")
+                            .data(pairings.nodes)
+                            .enter().append("circle")
+                            .attr("r", function(d) { return d.toi*d.toi/30000; })
+                            .attr("fill", function(d) { return color(d.group); })
+                            .call(d3.drag()
+                            .on("start", dragstarted)
+                            .on("drag", dragged)
+                            .on("end", dragended))
+                            .on("mousemove", function(d) {
+                            tooltip.transition()
+                            .duration(200)
+                            .style("opacity", .9);
+                            tooltip.html(d.id)
+                            .style("left", (d3.event.pageX - 225) + "px")
+                            .style("top", (d3.event.pageY - 28) + "px");
+                        
+                            d3.select(this).style("fill", "grey"); 
+                            })
+                            .on("mouseout", function(d) {
+                            tooltip.transition()
+                            .duration(500)
+                            .style("opacity", 0);
+                            d3.select(this).style("fill", color(d.group)); 
+                            });
+                        
+                            node.append("title")
+                            .text(function(d) { return d.id; });
+                        
+                            simulation
+                            .nodes(pairings.nodes)
+                            .on("tick", ticked);
+                        
+                            simulation.force("link")
+                                .links(pairings.links);
+                        
+                            function ticked() {
+                            link
+                            .attr("x1", function(d) { return d.target.x; })
+                            .attr("y1", function(d) { return d.target.y; })
+                            .attr("x2", function(d) { return d.source.x; })
+                            .attr("y2", function(d) { return d.source.y; });
+                        
+                            node
+                            .attr("cx", function(d) { return d.x; })
+                            .attr("cy", function(d) { return d.y; });
+                            }
+                        });
+                        
+                        function dragstarted(d) {
+                            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+                            d.fx = d.x;
+                            d.fy = d.y;
+                        }
+                        
+                        function dragged(d) {
+                            d.fx = d3.event.x;
+                            d.fy = d3.event.y;
+                        }
+                        
+                        function dragended(d) {
+                            if (!d3.event.active) simulation.alphaTarget(0);
+                            d.fx = null;
+                            d.fy = null;
+                        }
+                        }
+                        /* window.addEventListener('resize', function(event){
+                                document.body.innerHTML = "";
+                                draw();
+                            }); */
+                        
+                        </script>
+                    <!-- Gravity Scatter -->
+                    <script type="text/javascript">
+                        var margin = {top: 40, right: 20, bottom: 30, left: 40};
+                        var curryData;
+                
+                        draw();
+                
+                        function draw(){
+                        var width = $('#gravity').width() - margin.left - margin.right,
+                        height = 480 - margin.top - margin.bottom;
+                        /* 
+                        * value accessor - returns the value to encode for a given data object.
+                        * scale - maps value to a visual display encoding, such as a pixel position.
+                        * map function - maps from data value to display value
+                        * axis - sets up axis
+                        */ 
+                    
+                        // setup x 
+                        var xFrom = function(d) { return d.usg_with;}, // data -> value
+                            xScale = d3.scaleLinear().range([0, width]), // value -> display
+                            xMapFrom = function(d) { return xScale(xFrom(d));}, // data -> display
+                            xAxis = d3.axisBottom().scale(xScale),
+                            xTo = function(d) { return d.usg_without;}, // data -> value
+                            xMapTo = function(d) { return xScale(xTo(d));}, // data -> display
+                            xVals = []; //Array for x-values
+                    
+                        // setup y
+                        var yFrom = function(d) { return d.efg_with;}, // data -> value
+                            yScale = d3.scaleLinear().range([height, 0]), // value -> display
+                            yMapFrom = function(d) { return yScale(yFrom(d));}, // data -> display
+                            yAxis = d3.axisLeft().scale(yScale),
+                            yTo = function(d) { return d.efg_without;}, // data -> value
+                            yMapTo = function(d) { return yScale(yTo(d));}, // data -> display
+                            yVals = []; //Array for y-values
+                    
+                        // setup fill color
+                        var cValue = function(d) { return d.correlation;},
+                            color = d3.scaleOrdinal(d3.schemeCategory10);;
+                    
+                        // add the graph canvas to the body of the webpage
+                        var svg = d3.select('#gravity').append("svg")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom + 100)
+                            .append("g")
+                            .attr("class", "g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                    
+                            svg.append("image")
+                                .attr("x", 5)
+                                .attr("y", -40)
+                                .attr("xlink:href","./assets/golden_state_warriors.svg")
+                                .attr("width", 30)
+                                .attr("height", 30);
+                    
+                            svg.append("text")
+                            .attr("x", 40)
+                            .attr("y", -20)
+                            .attr("class", "chart-title")
+                            .text("Warriors With and Without Curry");
+                    
+                        // add the tooltip area to the webpage
+                        var tooltip = d3.select('#gravity').append("div")
+                            .attr("class", "tooltip")
+                            .style("opacity", 50);
+                    
+                        // load data
+                        d3.csv("./data/curry.csv", function(error, data) {
+                            curryData = data;
+                            // change string (from CSV) into number format
+                            data.forEach(function(d, i) {
+                            d.usg_with = +d.usg_with;
+                            d.usg_without = +d.usg_without;
+                            d.efg_with = +d.efg_with;
+                            d.efg_without = +d.efg_without;
+                            });
+                    
+                            // don't want dots overlapping axis, add in buffer to data domain
+                            xScale.domain([d3.min(data, xFrom)-1, d3.max(data, xTo)+5/2]);
+                            yScale.domain([d3.min(data, yFrom)-1, d3.max(data, yTo)+2]);
+                    
+                            // x-axis
+                            svg.append("g")
+                                .attr("class", "x axis")
+                                .attr("transform", "translate(0," + height + ")")
+                                .call(xAxis);
+                            svg.append("text")
+                                .attr("class", "label")
+                                .attr("x", width)
+                                .attr("y", height - 6)
+                                .style("text-anchor", "end")
+                                .text("Usage Rate");
+                    
+                            // y-axis
+                            svg.append("g")
+                                .attr("class", "y axis")
+                                .call(yAxis);
+                            svg.append("text")
+                                .attr("class", "label")
+                                .attr("transform", "rotate(-90)")
+                                .attr("y", 6)
+                                .attr("dy", ".71em")
+                                .style("text-anchor", "end")
+                                .text("Effective Field Goal Percentage");
+                    
+                            // Draw lines
+                            svg.selectAll('.line')
+                                .data(data)
+                                .enter()
+                                .append("line")
+                                .attr("x1",xMapFrom)
+                                .attr("x2",xMapTo)
+                                .attr("y1",yMapFrom)
+                                .attr("y2",yMapTo)
+                                .attr("stroke", "#000")
+                                .attr('stroke-width', "1.5px");
+                    
+                            // draw dots
+                            svg.selectAll(".dot")
+                                .data(data)
+                            .enter().append("circle")
+                                .attr("class", "dot")
+                                .attr("r", 5)
+                                .attr("cx", xMapTo)
+                                .attr("cy", yMapTo)
+                                .style("fill", function(d){return calculateFill(d);})
+                                .on("mousemove", function(d) {
+                                    tooltip.transition()
+                                        .duration(200)
+                                        .style("opacity", .9);
+                                    tooltip.html(d.player)
+                                        .style("left", (d3.event.pageX - 225) + "px")
+                                        .style("top", (d3.event.pageY - 28) + "px");
+                    
+                                    d3.select(this).style("fill", "orange"); 
+                                })
+                                .on("mouseout", function(d) {
+                                    tooltip.transition()
+                                        .duration(500)
+                                        .style("opacity", 0);
+                                    d3.select(this).style("fill", calculateFill(d)); 
+                                });
+                    
+                                svg.append("text")
+                                    .attr("class", "label")
+                                    .attr("x", width - 25)
+                                    .attr("y", 14)
+                                    .style("text-anchor", "end")
+                                    .text("Better Without Curry");
+                    
+                                svg.append("rect")
+                                .attr("x", width - 20)
+                                .attr("y", 0)
+                                .attr("width", 20)
+                                .attr("height", 20)
+                                .style("text-anchor", "end")
+                                .style("fill", "green");
+                    
+                                svg.append("text")
+                                    .attr("class", "label")
+                                    .attr("x", width - 25)
+                                    .attr("y", 44)
+                                    .style("text-anchor", "end")
+                                    .text("Worse Without Curry");
+                    
+                                svg.append("rect")
+                                .attr("x", width - 20)
+                                .attr("y", 30)
+                                .attr("width", 20)
+                                .attr("height", 20)
+                                .style("text-anchor", "end")
+                                .style("fill", "red");
+                        });
+                        }
+                    
+                        function calculateFill(d){
+                        if(d.correlation === "TRUE")
+                                return "red";
+                            return "green"; //CHANGE TO RED
+                        }
+                    
+                        /* window.addEventListener('resize', function(event){
+                            $('#gravity').html("");
+                            draw();
+                        }); */
+                    </script>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>

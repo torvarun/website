@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+    <!-- fullpage.js -->
+    <link rel="stylesheet" type="text/css" href="./vendors/fullpage/jquery.fullPage.css" />
+    <script src="./vendors/fullpage/jquery.easings.min.js"></script>
+    <script type="text/javascript" src="./vendors/fullpage/scrolloverflow.min.js"></script>
+    <script type="text/javascript" src="./vendors/fullpage/jquery.fullPage.js"></script>
+    
+    <!-- Fonts -->
+    <script src="./vendors/fontawesome.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif|Montserrat" rel="stylesheet">
+    
+    <title>Varun Venkataramanan</title>
+    <meta charset="utf-8" name="description" content="Portfolio of Varun Venkataramanan">
+    <meta charset="utf-8" name="author" content="Varun Venkataramanan">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=yyLbP2WgME">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=yyLbP2WgME">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=yyLbP2WgME">
+    <link rel="manifest" href="/favicon/site.webmanifest?v=yyLbP2WgME">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=yyLbP2WgME" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicon/favicon.ico?v=yyLbP2WgME">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+
+<body>
+    <div id="fullpage">
+        <div class="content section" id="me">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center" style="margin: auto;">
+                        <img id="avatar" class="avatar" src="./assets/images/avatar.svg">
+                        <a href="https://www.linkedin.com/in/torvarun" target="_blank" class="social" data-toggle="tooltip" title="LinkedIn">
+                            <i class="fa fa-linkedin fa-fw fa-2x social-icon"></i>
+                        </a>
+                        <a href="./resume.pdf" target="_blank" class="social" data-toggle="tooltip" title="Resume">
+                            <i class="fa fa-file fa-fw fa-2x social-icon"></i>
+                        </a>
+                        <a href="https://github.com/torvarun" target="_blank" class="social" data-toggle="tooltip" title="Github">
+                            <i class="fa fa-github fa-fw fa-2x social-icon"></i>
+                        </a>
+                        <a href="https://blog.snapshotsofharmony.net" target="_blank" class="social" data-toggle="tooltip" title="Blog">
+                            <i class="fa fa-rss fa-fw fa-2x social-icon"></i>
+                        </a>
+                        <a href="https://twitter.com/torvarun" target="_blank" class="social" data-toggle="tooltip" title="twitter">
+                            <i class="fa fa-twitter fa-fw fa-2x social-icon"></i>
+                        </a>
+                    </div>
+                    <div class="col" style="margin: auto;">
+                        <span>
+                            <h1 class="name heading text-left" style="line-height: 0.5;">Varun</h1>
+                            <br/>
+                            <br/>
+                            <h1 class="name heading text-left" style="line-height: 0.5;">Venkataramanan</h1>
+                        </span>
+                    </div>
+                </div>
+                <div class="row align-items-start">
+                    <br/>
+                </div>
+                <div class="row align-items-center">
+                    <br/>
+                    <br/>
+                </div>
+                <div class="row align-items-end text-center">
+                    <div class="col align-self-end">
+                        <div class="d-inline-block">
+                            <div class="btn-toolbar mx-auto">
+                                <div class="btn-group mr-2" role="group">
+                                    <a href="./portfolio/data.html" style="color: #4663d5 !important;">
+                                        <button type="button heading" class="btn btn-outline-primary btn-lg">
+                                            data viz
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="btn-group mr-2" role="group">
+                                    <a href="./portfolio/android.html" style="color: #4663d5 !important;">
+                                        <button type="button heading" class="btn btn-outline-primary btn-lg">
+                                            android apps
+                                        </button>
+                                    </a>
+                                </div>
+                                <!--
+                                <div class="btn-group mr-2" role="group">
+                                    <a href="./portfolio/journalism.html" style="color: #4663d5 !important;">
+                                        <button type="button heading" class="btn btn-outline-primary btn-lg">
+                                            journalism
+                                        </button>
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Avatar wink on mouseover
+            $("#avatar").mouseenter(function(){
+                $(this).attr('src','./assets/images/avatar-wink.svg');      
+            });     
+            $("#avatar").mouseleave(function(){
+                $(this).attr('src','./assets/images/avatar.svg');      
+            });
+            
+            $('#fullpage').fullpage({
+                //sectionsColor: ['#f0f0f0','#f0f0f0', '#f0f0f0'],
+                //navigation: false,
+                //slidesNavigation: true,
+                //slidesNavPosition: 'bottom',
+                //controlArrows: true,
+                //scrollingSpeed: 1000,
+                fitToSection:false,
+                autoScrolling: false
+            });
+        });
+    </script>
+    
+</body>
